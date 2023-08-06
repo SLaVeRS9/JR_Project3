@@ -3,7 +3,7 @@ package jR_Project3.builders.users;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import jR_Project3.interfaces.UserBuilder;
 import jR_Project3.models.users.AbstractUser;
-import jR_Project3.models.users.UserDto;
+import jR_Project3.filters.UserDto;
 
 @JsonPOJOBuilder(withPrefix = "set")
 public class SimpleUserDtoBuilder implements UserBuilder {
