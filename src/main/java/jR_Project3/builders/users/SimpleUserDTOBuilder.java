@@ -1,24 +1,24 @@
 package jR_Project3.builders.users;
 
+import jR_Project3.dto.UserDTO;
 import jR_Project3.interfaces.UserBuilder;
-import jR_Project3.models.users.SimpleUser;
 
-public class SimpleUserBuilder implements UserBuilder {
+public class SimpleUserDTOBuilder implements UserBuilder {
     private String name;
 
-    public SimpleUserBuilder() {
+    public SimpleUserDTOBuilder() {
         super();
     }
 
     @Override
-    public UserBuilder name(String name) {
+    public SimpleUserDTOBuilder name(String name) {
         this.name = name;
         return this;
     }
 
     @Override
-    public SimpleUser build() {
-        return new SimpleUser(this);
+    public UserDTO build() {
+        return new UserDTO(this);
     }
 
     @Override
