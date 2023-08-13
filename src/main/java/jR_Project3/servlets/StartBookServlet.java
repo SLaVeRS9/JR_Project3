@@ -1,5 +1,6 @@
 package jR_Project3.servlets;
 
+import jR_Project3.models.*;
 import jR_Project3.models.books.Book;
 import jR_Project3.services.BookReaderServiceJSON;
 import jR_Project3.services.CookieReaderService;
@@ -7,8 +8,6 @@ import jR_Project3.mappers.InfoFormMapper;
 import jR_Project3.builders.users.SimpleUserDTOBuilder;
 import jR_Project3.dto.InfoFormDTO;
 import jR_Project3.dto.UserDTO;
-import jR_Project3.models.CookiesNames;
-import jR_Project3.models.SessionContextForForm;
 import jR_Project3.services.StepsInGameService;
 import jR_Project3.services.UserCountEntrancesService;
 import org.slf4j.Logger;
@@ -28,9 +27,11 @@ public class StartBookServlet extends HttpServlet {
     private static final Integer INIT_USER_COUNT_ENTRANCES = 0;
     private static final String BOOK_PATH = "/WEB-INF/classes/book.json";
     private static final Integer INIT_PART = 0;
-    private static Logger LOGGER = LoggerFactory.getLogger(TestServlet.class);
-    private final static CookieReaderService cookieReaderService = new CookieReaderService();
-    private final static UserCountEntrancesService userCountEntrancesService = new UserCountEntrancesService();
+    private static Logger LOGGER = LoggerFactory.getLogger(StartBookServlet.class);
+    private final static CookieReaderService COOKIE_READER_SERVICE = new CookieReaderService();
+    private final static UserCountEntrancesService USER_COUNT_ENTRANCES_SERVICE = new UserCountEntrancesService();
+    private final static BookReaderServiceJSON BOOK_READER_SERVICE_JSON = new BookReaderServiceJSON();
+    private final static SimpleUserDTOBuilder SIMPLE_USER_DTO_BUILDER = new SimpleUserDTOBuilder();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +40,7 @@ public class StartBookServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.getServletContext().getSessionCookieConfig();
         Integer stepsInGame = StepsInGameService.initStepsInGame();
-        session.setAttribute("stepsInGame", stepsInGame);
+        session.setAttribute(SessionAttributes.STEPS_IN_GAME.getName(), stepsInGame);
 
         Cookie[] cookies = req.getCookies();
 
@@ -47,33 +48,34 @@ public class StartBookServlet extends HttpServlet {
         String fullBookPath = servletContext.getRealPath(BOOK_PATH);
 
         File bookFile = new File(fullBookPath);
-        Book book = new BookReaderServiceJSON().jsonToBook(bookFile);
-        session.setAttribute("book", book);
-        req.setAttribute("initPart", INIT_PART);
+        Book book = BOOK_READER_SERVICE_JSON.jsonToBook(bookFile);
+        session.setAttribute(SessionAttributes.BOOK.getName(), book);
+        req.setAttribute(ReqAttributes.INIT_PART.getName(), INIT_PART);
 
-        Optional<String> optionalUserName = cookieReaderService.readCookie(cookies, CookiesNames.USER_NAME_COOKIE.getName());
+        Optional<String> optionalUserName = COOKIE_READER_SERVICE.readCookie(cookies, CookiesNames.USER_NAME_COOKIE.getName());
         String userName = optionalUserName.orElse(DEFAULT_NAME);
         if (userName.equalsIgnoreCase(DEFAULT_NAME)) {
-            req.setAttribute("isRegistered", false);
+            req.setAttribute(ReqAttributes.IS_REGISTERED.getName(), false);
         } else {
-            req.setAttribute("isRegistered", true);
+            req.setAttribute(ReqAttributes.IS_REGISTERED.getName(), true);
         }
 
-        Optional<String> optionalUserCountEntrances = cookieReaderService.readCookie(cookies, CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName());
+        Optional<String> optionalUserCountEntrances = COOKIE_READER_SERVICE.readCookie(cookies, CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName());
         String userCountEntrances = optionalUserCountEntrances.orElse(Integer.toString(INIT_USER_COUNT_ENTRANCES));
         if (Integer.valueOf(userCountEntrances) != INIT_USER_COUNT_ENTRANCES) {
-            userCountEntrances = String.valueOf(userCountEntrancesService.incrementUserCountEntrances(userCountEntrances));
+            userCountEntrances = String.valueOf(USER_COUNT_ENTRANCES_SERVICE.incrementUserCountEntrances(userCountEntrances));
             resp.addCookie(new Cookie(CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName(), userCountEntrances));
         }
 
-        UserDTO user = new SimpleUserDTOBuilder().name(userName).build();
+        UserDTO user = SIMPLE_USER_DTO_BUILDER.name(userName).build();
 
+        //TODO Подумать переделать
         SessionContextForForm sessionContextForForm = new SessionContextForForm().getSessionContextForForm(req);
 
         InfoFormDTO infoFormDTO = InfoFormMapper.getInfoFormDTO(user, sessionContextForForm, Integer.valueOf(userCountEntrances));
 
-        session.setAttribute("infoFormDTO", infoFormDTO);
-        session.setAttribute("user", user);
+        session.setAttribute(SessionAttributes.INFO_FORM_DTO.getName(), infoFormDTO);
+        session.setAttribute(SessionAttributes.USER.getName(), user);
 
         req.getRequestDispatcher("/start.jsp").forward(req, resp);
     }
@@ -83,10 +85,10 @@ public class StartBookServlet extends HttpServlet {
         LOGGER.info("doPost");
         HttpSession session = req.getSession();
 
-        String name = req.getParameter("userName");
-        InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute("infoFormDTO");
+        String name = req.getParameter(ReqParameters.USER_NAME.getName());
+        InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute(SessionAttributes.INFO_FORM_DTO.getName());
         infoFormDTO.setUserName(name);
-        UserDTO user = new SimpleUserDTOBuilder().name(name).build();
+        UserDTO user = SIMPLE_USER_DTO_BUILDER.name(name).build();
 
         LOGGER.info("Create user request received: {}", user);
 
@@ -95,10 +97,10 @@ public class StartBookServlet extends HttpServlet {
         resp.addCookie(new Cookie(CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName(), Integer.toString(++userCountEntrances)));
         infoFormDTO.setCountPlayedGame(userCountEntrances);
 
-        session.setAttribute("user", user);
-        session.setAttribute("infoFormDTO", infoFormDTO);
+        session.setAttribute(SessionAttributes.USER.getName(), user);
+        session.setAttribute(SessionAttributes.INFO_FORM_DTO.getName(), infoFormDTO);
 
-        req.setAttribute("isRegistered", true);
+        req.setAttribute(ReqAttributes.IS_REGISTERED.getName(), true);
 
         resp.sendRedirect("/page");
     }
