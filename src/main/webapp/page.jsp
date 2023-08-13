@@ -11,7 +11,7 @@
 <head>
     <title>${book.name}</title>
     <meta charset="UTF-8">
-    <link href="page.css" rel="stylesheet">
+    <link href="css/page.css" rel="stylesheet">
 </head>
 <body>
     <div class="center"><p class="zag">${currentPart.title}</p></div>

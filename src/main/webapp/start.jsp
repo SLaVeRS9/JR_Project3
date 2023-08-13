@@ -13,7 +13,7 @@
 <head>
     <title>${book.name}</title>
     <meta charset="UTF-8">
-    <link href="styles.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
     <div class="center"><h1>${book.name}</h1></div>
