@@ -7,6 +7,7 @@ public enum SessionAttributes {
     STEPS_IN_GAME("stepsInGame"),
     BOOK("book"),
     INFO_FORM_DTO("infoFormDTO"),
+    CURRENT_PART("currentPart"),
     USER("user");
 
     private final String name;

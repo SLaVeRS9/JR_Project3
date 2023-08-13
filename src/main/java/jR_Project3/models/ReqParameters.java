@@ -4,7 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ReqParameters {
-    USER_NAME("userName");
+    USER_NAME("userName"),
+    PART("part");
 
     private final String name;
 

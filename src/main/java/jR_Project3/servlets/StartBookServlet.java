@@ -21,6 +21,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
+import static jR_Project3.models.CookiesNames.USER_COUNT_ENTRANCES_COOKIE;
+import static jR_Project3.models.CookiesNames.USER_NAME_COOKIE;
+import static jR_Project3.models.ReqAttributes.IS_REGISTERED;
+import static jR_Project3.models.ReqParameters.USER_NAME;
+import static jR_Project3.models.SessionAttributes.*;
+
 @WebServlet("/start")
 public class StartBookServlet extends HttpServlet {
     private static final String DEFAULT_NAME = "Путник";
@@ -40,7 +46,7 @@ public class StartBookServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.getServletContext().getSessionCookieConfig();
         Integer stepsInGame = StepsInGameService.initStepsInGame();
-        session.setAttribute(SessionAttributes.STEPS_IN_GAME.getName(), stepsInGame);
+        session.setAttribute(STEPS_IN_GAME.getName(), stepsInGame);
 
         Cookie[] cookies = req.getCookies();
 
@@ -52,19 +58,19 @@ public class StartBookServlet extends HttpServlet {
         session.setAttribute(SessionAttributes.BOOK.getName(), book);
         req.setAttribute(ReqAttributes.INIT_PART.getName(), INIT_PART);
 
-        Optional<String> optionalUserName = COOKIE_READER_SERVICE.readCookie(cookies, CookiesNames.USER_NAME_COOKIE.getName());
+        Optional<String> optionalUserName = COOKIE_READER_SERVICE.readCookie(cookies, USER_NAME_COOKIE.getName());
         String userName = optionalUserName.orElse(DEFAULT_NAME);
         if (userName.equalsIgnoreCase(DEFAULT_NAME)) {
-            req.setAttribute(ReqAttributes.IS_REGISTERED.getName(), false);
+            req.setAttribute(IS_REGISTERED.getName(), false);
         } else {
-            req.setAttribute(ReqAttributes.IS_REGISTERED.getName(), true);
+            req.setAttribute(IS_REGISTERED.getName(), true);
         }
 
-        Optional<String> optionalUserCountEntrances = COOKIE_READER_SERVICE.readCookie(cookies, CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName());
+        Optional<String> optionalUserCountEntrances = COOKIE_READER_SERVICE.readCookie(cookies, USER_COUNT_ENTRANCES_COOKIE.getName());
         String userCountEntrances = optionalUserCountEntrances.orElse(Integer.toString(INIT_USER_COUNT_ENTRANCES));
         if (Integer.valueOf(userCountEntrances) != INIT_USER_COUNT_ENTRANCES) {
             userCountEntrances = String.valueOf(USER_COUNT_ENTRANCES_SERVICE.incrementUserCountEntrances(userCountEntrances));
-            resp.addCookie(new Cookie(CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName(), userCountEntrances));
+            resp.addCookie(new Cookie(USER_COUNT_ENTRANCES_COOKIE.getName(), userCountEntrances));
         }
 
         UserDTO user = SIMPLE_USER_DTO_BUILDER.name(userName).build();
@@ -74,8 +80,8 @@ public class StartBookServlet extends HttpServlet {
 
         InfoFormDTO infoFormDTO = InfoFormMapper.getInfoFormDTO(user, sessionContextForForm, Integer.valueOf(userCountEntrances));
 
-        session.setAttribute(SessionAttributes.INFO_FORM_DTO.getName(), infoFormDTO);
-        session.setAttribute(SessionAttributes.USER.getName(), user);
+        session.setAttribute(INFO_FORM_DTO.getName(), infoFormDTO);
+        session.setAttribute(USER.getName(), user);
 
         req.getRequestDispatcher("/start.jsp").forward(req, resp);
     }
@@ -85,22 +91,22 @@ public class StartBookServlet extends HttpServlet {
         LOGGER.info("doPost");
         HttpSession session = req.getSession();
 
-        String name = req.getParameter(ReqParameters.USER_NAME.getName());
-        InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute(SessionAttributes.INFO_FORM_DTO.getName());
+        String name = req.getParameter(USER_NAME.getName());
+        InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute(INFO_FORM_DTO.getName());
         infoFormDTO.setUserName(name);
         UserDTO user = SIMPLE_USER_DTO_BUILDER.name(name).build();
 
         LOGGER.info("Create user request received: {}", user);
 
         Integer userCountEntrances = INIT_USER_COUNT_ENTRANCES;
-        resp.addCookie(new Cookie(CookiesNames.USER_NAME_COOKIE.getName(), name));
-        resp.addCookie(new Cookie(CookiesNames.USER_COUNT_ENTRANCES_COOKIE.getName(), Integer.toString(++userCountEntrances)));
+        resp.addCookie(new Cookie(USER_NAME_COOKIE.getName(), name));
+        resp.addCookie(new Cookie(USER_COUNT_ENTRANCES_COOKIE.getName(), Integer.toString(++userCountEntrances)));
         infoFormDTO.setCountPlayedGame(userCountEntrances);
 
-        session.setAttribute(SessionAttributes.USER.getName(), user);
-        session.setAttribute(SessionAttributes.INFO_FORM_DTO.getName(), infoFormDTO);
+        session.setAttribute(USER.getName(), user);
+        session.setAttribute(INFO_FORM_DTO.getName(), infoFormDTO);
 
-        req.setAttribute(ReqAttributes.IS_REGISTERED.getName(), true);
+        req.setAttribute(IS_REGISTERED.getName(), true);
 
         resp.sendRedirect("/page");
     }
