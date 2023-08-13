@@ -6,50 +6,59 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%--<jsp:useBean id="statisticsBean" scope="session" class="jR_Project3.models.SessionContextForForm"/>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
-    <title>Ночь в лесу оборотней</title>
+    <title>${book.name}</title>
     <meta charset="UTF-8">
+    <link href="styles.css" rel="stylesheet">
 </head>
-<body style="background-image: image('background_werwolf_start.jpg')">
-    <div>Добро пожаловать, {путник}!</div>
+<body>
+    <div class="center"><h1>${book.name}</h1></div>
+    <div class="center"><p class="zag">Добро пожаловать, ${user.name}!</p></div>
     <div>
-        <p>Берегись, читатель!<br>
-            Сам выбрал наш ужастик &mdash; никто тебе не поможет!<br>
-            Доставай плавки!<br>
-            Ты с семьей едешь на все лето в местечко под названием &laquo;Лесной мир&raquo;.<br>
-            Ты как на иголках: не терпится поскорее очутиться на берегу озера.<br>
-            Потом у костра мальчишки рассказывают всякие страсти о Лесном мире.<br>
-            По слухам, в этих лесах по ночам бродят оборотни.<br>
-            Но тебя не так-то легко напугать. Ты готов к приключениям.<br>
-            Решишься обследовать самые глухие и мрачные уголки леса?<br>
-            Хватит тебе храбрости сунуться в тоннель Волн, обитель жуткого озерного чудовища?<br>
-            Ты готов биться с огненно-рыжими муравьями?<br>
-        </p>
+        <p class="text">${book.parts[initPart].text}</p>
     </div>
 
-    <div>
-        <form action="/start" method="POST">
-            <label>Представься:
-                <input type="text" name="userName" />
-            </label><br><br>
-            <label>
-                <input type="submit" value="Отправиться в путешествие" />
-                    <%--<button type="submit">Отправиться в путешествие</button>--%>
-            </label>
-        </form>
+    <div class="center">
+        <c:if test="${isRegistered == true}">
+            <form class="main" action="/page" method="GET">
+                <label class="main2">
+                    <button class="main3" name="part" value="${book.firstPart}">Продолжить</button>
+                </label>
+            </form>
+            <form class="main" action="/restart" method="GET">
+                    <%--ДОДЕЛАТЬ!!!--%>
+                <label>
+                    <button class="main3">Начать с нуля</button>
+                    <%--<input class="main3" type="submit" value="Сбросить" />--%>
+                </label>
+            </form>
+        </c:if>
+        <c:if test="${isRegistered == false}">
+            <form class="main" action="/start" method="POST">
+                <label>
+                    <span class="welcome">Представься:</span>
+                    <input class="main3" type="text" name="userName"/>
+                </label><br><br>
+                <label>
+                    <button class="main3">Отправиться в путешествие</button>
+                </label>
+            </form>
+        </c:if>
     </div>
-
-    <div>
-        <p>Статистика<br>
-        Имя пользователя: ${statisticsBean.userName}<br>
-        IP: ${statisticsBean.userIP}<br>
-        ID сессии: ${statisticsBean.JSessionID}<br>
-        Количество прожитых часов: ${statisticsBean.stepsInGame}<br>
-        Кол-во игр на игрока: ${statisticsBean.countPlayedGame}<br>
-    </div>
-    <p></p>
 </body>
+<footer>
+    <div class="statistics">
+        <p class="statistics"><strong>Статистика</strong></p>
+        Имя пользователя: ${user.name}<br>
+        IP: ${infoFormDTO.userIP}<br>
+        ID сессии: ${infoFormDTO.JSessionID}<br>
+        Количество прожитых часов: ${infoFormDTO.stepsInGame}<br>
+        Кол-во игр на игрока: ${infoFormDTO.countPlayedGame}<br>
+    </div>
+</footer>
 </html>
+

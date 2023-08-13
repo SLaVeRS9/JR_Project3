@@ -1,0 +1,113 @@
+html {
+    height: 100%;
+    background-image: url(/pictures/background_werwolf_start.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+body {
+    min-height: 100%;
+}
+
+h1 {
+    text-align: center;
+    font-size: 80px;
+    color: darkred;
+    padding: 5px;
+}
+
+div.center {
+    margin-left: auto;
+    margin-right: auto;
+    color: darkred;
+}
+
+
+p.zag {
+    text-align: center;
+    font-size: 30px;
+    padding: 5px;
+}
+
+p.text {
+    border-color: black;
+    border-radius: 10px;
+    /*background-color: rgb(0, 0, 0);
+    opacity: 0.5;*/
+    text-align: center;
+    color: ghostwhite;
+    font-size: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+    line-height: 2;
+    background: rgba(0, 0, 0, .5);
+    padding: 5px;
+}
+
+div.statistics {
+    color: ghostwhite;
+}
+
+p.statistics {
+    font-size: 20px;
+}
+
+form.main {
+    margin-left: auto;
+    margin-right: auto;
+    border: ghostwhite;
+    text-align: center;
+}
+
+/*label.main2 {
+    border: 4px white;
+    background-color: black;
+    opacity: 0.7;
+}*/
+
+button.main3 {
+    border: 4px ghostwhite;
+    background-color: black;
+    opacity: 0.7;
+    font-size: 15px;
+    color: ghostwhite;
+    text-align: center;
+    padding: 10px;
+    min-width: 340px;
+}
+
+button.main3:hover {
+    border: 4px ghostwhite;
+    background-color: ghostwhite;
+    opacity: 0.7;
+    font-size: 15px;
+    color: rgb(139, 0, 0);
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+input.main3 {
+    border: 4px ghostwhite;
+    background-color: black;
+    opacity: 0.7;
+    font-size: 15px;
+    color: ghostwhite;
+    text-align: center;
+    padding: 10px;
+}
+
+span.welcome {
+    border: medium white;
+    font-size: 19px;
+    color: black;
+    text-align: center;
+    padding: 8px;
+    background: rgba(139, 0, 0, .7);
+}
