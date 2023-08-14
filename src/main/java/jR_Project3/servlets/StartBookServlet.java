@@ -45,6 +45,15 @@ public class StartBookServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         session.getServletContext().getSessionCookieConfig();
+
+        //TODO Добавить логику была ли концовка хорошей или нет
+        /*try {
+            if ((Integer) session.getAttribute(STEPS_IN_GAME.getName()) > 0) {}
+        } catch (NullPointerException exception) {
+            Integer stepsInGame = StepsInGameService.initStepsInGame();
+            session.setAttribute(STEPS_IN_GAME.getName(), stepsInGame);
+        }*/
+
         Integer stepsInGame = StepsInGameService.initStepsInGame();
         session.setAttribute(STEPS_IN_GAME.getName(), stepsInGame);
 

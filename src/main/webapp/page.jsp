@@ -18,25 +18,25 @@
     <div class="center">
         <p class="text">${currentPart.text}</p>
         <div class="center">
-            <form class="main" action="/page" method="GET">
                 <c:forEach var="button" items="${currentPart.buttons}">
-                    <label>
-                        <button class="main3" name="part" value="${button.nextPart}">${button.text}</button>
-                    </label>
+                    <c:if test="${button.text.equalsIgnoreCase('Конец')}">
+                        <form class="main" action="/start" method="GET">
+                            <label>
+                                <button class="main3">${button.text}</button>
+                            </label>
+                        </form>
+                    </c:if>
+
+                    <c:if test="${!button.text.equalsIgnoreCase('Конец')}">
+                        <form class="main" action="/page" method="GET">
+                            <label>
+                                <button class="main3" name="part" value="${button.nextPart}">${button.text}</button>
+                            </label>
+                        </form>
+                    </c:if>
                 </c:forEach>
-            </form>
         </div>
     </div>
-
-    <%--<div class="center">
-        <form class="main" action="/page" method="GET">
-            <c:forEach var="button" items="${currentPart.buttons}">
-                <label>
-                    <button class="main3" name="part" value="${button.nextPart}">${button.text}</button>
-                </label>
-            </c:forEach>
-        </form>
-    </div>--%>
 </body>
 <footer>
     <div class="statistics">
