@@ -13,7 +13,7 @@
 <head>
     <title>${book.name}</title>
     <meta charset="UTF-8">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
 </head>
 <body>
     <div class="center"><h1>${book.name}</h1></div>
@@ -30,10 +30,8 @@
                 </label>
             </form>
             <form class="main" action="/restart" method="GET">
-                    <%--ДОДЕЛАТЬ!!!--%>
                 <label>
                     <button class="main3">Начать с нуля</button>
-                    <%--<input class="main3" type="submit" value="Сбросить" />--%>
                 </label>
             </form>
         </c:if>

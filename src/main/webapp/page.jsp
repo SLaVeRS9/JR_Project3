@@ -11,15 +11,24 @@
 <head>
     <title>${book.name}</title>
     <meta charset="UTF-8">
-    <link href="css/page.css" rel="stylesheet">
+    <link href="page.css" rel="stylesheet">
 </head>
 <body>
     <div class="center"><p class="zag">${currentPart.title}</p></div>
     <div class="center">
         <p class="text">${currentPart.text}</p>
+        <div class="center">
+            <form class="main" action="/page" method="GET">
+                <c:forEach var="button" items="${currentPart.buttons}">
+                    <label>
+                        <button class="main3" name="part" value="${button.nextPart}">${button.text}</button>
+                    </label>
+                </c:forEach>
+            </form>
+        </div>
     </div>
 
-    <div class="center">
+    <%--<div class="center">
         <form class="main" action="/page" method="GET">
             <c:forEach var="button" items="${currentPart.buttons}">
                 <label>
@@ -27,7 +36,7 @@
                 </label>
             </c:forEach>
         </form>
-    </div>
+    </div>--%>
 </body>
 <footer>
     <div class="statistics">

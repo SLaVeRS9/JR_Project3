@@ -1,6 +1,6 @@
 html {
     height: 100%;
-    background-image: url(/pictures/background_werwolf_start.jpg);
+    background-image: url(/pictures/forest01.jpg);
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -10,36 +10,30 @@ html {
     background-size: cover;
 }
 
-
 body {
     min-height: 100%;
-}
-
-h1 {
-    text-align: center;
-    font-size: 80px;
-    color: darkred;
-    padding: 5px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 div.center {
     margin-left: auto;
     margin-right: auto;
     color: darkred;
+    min-width: 1600px;
 }
-
 
 p.zag {
     text-align: center;
     font-size: 30px;
+    min-height: 20px;
     padding: 5px;
 }
 
 p.text {
+
     border-color: black;
     border-radius: 10px;
-    /*background-color: rgb(0, 0, 0);
-    opacity: 0.5;*/
     text-align: center;
     color: ghostwhite;
     font-size: 20px;
@@ -58,20 +52,7 @@ p.statistics {
     font-size: 20px;
 }
 
-form.main {
-    margin-left: auto;
-    margin-right: auto;
-    border: ghostwhite;
-    text-align: center;
-}
-
-/*label.main2 {
-    border: 4px white;
-    background-color: black;
-    opacity: 0.7;
-}*/
-
-button.main3 {
+.main3 {
     border: 4px ghostwhite;
     background-color: black;
     opacity: 0.7;
@@ -82,18 +63,7 @@ button.main3 {
     min-width: 340px;
 }
 
-button.main3:hover {
-    border: 4px ghostwhite;
-    background-color: ghostwhite;
-    opacity: 0.7;
-    font-size: 15px;
-    color: rgb(139, 0, 0);
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-}
-
-input.main3 {
+/*input.main3 {
     border: 4px ghostwhite;
     background-color: black;
     opacity: 0.7;
@@ -101,13 +71,26 @@ input.main3 {
     color: ghostwhite;
     text-align: center;
     padding: 10px;
+    min-width: 340px;
+}*/
+
+.main3:hover {
+    border: 4px ghostwhite;
+    background-color: ghostwhite;
+    opacity: 0.7;
+    font-size: 15px;
+    color: rgb(139, 0, 0);
+    text-align: center;
+    padding: 10px;
 }
 
-span.welcome {
-    border: medium white;
-    font-size: 19px;
-    color: black;
+form.main {
+    margin-left: auto;
+    margin-right: auto;
+    border: ghostwhite;
     text-align: center;
-    padding: 8px;
-    background: rgba(139, 0, 0, .7);
+}
+
+
+footer {
 }
