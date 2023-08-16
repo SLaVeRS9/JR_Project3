@@ -23,6 +23,7 @@ public class RestartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.info("started");
         Cookie[] cookies = req.getCookies();
         Optional<Cookie> optionalUserNameCookie = cookieReaderService
                 .getCookie(cookies, USER_NAME_COOKIE.getName());
@@ -46,6 +47,7 @@ public class RestartServlet extends HttpServlet {
         }
 
         req.getSession().invalidate();
+        log.info("ended");
         resp.sendRedirect("/start");
     }
 }

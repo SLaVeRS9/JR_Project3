@@ -28,12 +28,13 @@ public class PageServlet  extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("page servlet start");
+        log.info("started");
         HttpSession session = req.getSession();
         StepsInGameService.incrementStepsInGame(session);
 
         InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute(INFO_FORM_DTO.getName());
         infoFormDTO.setStepsInGame((Integer)session.getAttribute(STEPS_IN_GAME.getName()));
+        log.info("Steps in game has been set");
         session.setAttribute(INFO_FORM_DTO.getName(), infoFormDTO);
 
         Book book = (Book) session.getAttribute(BOOK.getName());
@@ -41,10 +42,12 @@ public class PageServlet  extends HttpServlet {
         Integer currentPartNumber = req.getParameter(PART.getName()) != null
                 ? Integer.valueOf(req.getParameter(PART.getName()))
                 : book.getFirstPart();
+        log.info("Current part number = {}", currentPartNumber);
 
         Part currentPart = bookPartsService.getPart(book, currentPartNumber);
         session.setAttribute(CURRENT_PART.getName(), currentPart);
 
+        log.info("ended");
         req.getRequestDispatcher("/page.jsp").forward(req, resp);
     }
 }
