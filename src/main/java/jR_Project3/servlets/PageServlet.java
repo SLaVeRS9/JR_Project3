@@ -1,8 +1,7 @@
 package jR_Project3.servlets;
 
 import jR_Project3.dto.InfoFormDTO;
-import jR_Project3.models.ReqParameters;
-import jR_Project3.models.SessionAttributes;
+import jR_Project3.models.CookiesNames;
 import jR_Project3.models.books.Book;
 import jR_Project3.models.books.Part;
 import jR_Project3.services.BookPartsService;
@@ -11,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 import static jR_Project3.models.ReqParameters.PART;
@@ -46,6 +42,8 @@ public class PageServlet  extends HttpServlet {
 
         Part currentPart = bookPartsService.getPart(book, currentPartNumber);
         session.setAttribute(CURRENT_PART.getName(), currentPart);
+
+        resp.addCookie(new Cookie(CookiesNames.PART_WHERE_STOPPED.getName(), String.valueOf(currentPartNumber)));
 
         log.info("ended");
         req.getRequestDispatcher("/page.jsp").forward(req, resp);

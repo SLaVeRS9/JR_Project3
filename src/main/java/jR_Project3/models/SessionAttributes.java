@@ -8,6 +8,7 @@ public enum SessionAttributes {
     BOOK("book"),
     INFO_FORM_DTO("infoFormDTO"),
     CURRENT_PART("currentPart"),
+    IS_END("isEnd"),
     USER("user");
 
     private final String name;

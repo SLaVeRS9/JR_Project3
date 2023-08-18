@@ -20,7 +20,8 @@
         <c:if test="${isRegistered == true}">
             <form class="main" action="/page" method="GET">
                 <label class="main2">
-                    <button class="main3" name="part" value="${book.firstPart}">Продолжить</button>
+                    <button class="main3" name="part" value="${requestScope.get("partWhereStopped")}">Продолжить</button>
+                    <%--<button class="main3" name="part" value="${book.firstPart}">Продолжить</button>--%>
                 </label>
             </form>
             <form class="main" action="/restart" method="GET">

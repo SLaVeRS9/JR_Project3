@@ -22,8 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-import static jR_Project3.models.CookiesNames.USER_COUNT_ENTRANCES_COOKIE;
-import static jR_Project3.models.CookiesNames.USER_NAME_COOKIE;
+import static jR_Project3.models.CookiesNames.*;
 import static jR_Project3.models.ReqAttributes.IS_REGISTERED;
 import static jR_Project3.models.ReqParameters.USER_NAME;
 import static jR_Project3.models.SessionAttributes.*;
@@ -33,6 +32,7 @@ public class StartBookServlet extends HttpServlet {
     private static final String DEFAULT_NAME = "Путник";
     private static final Integer INIT_USER_COUNT_ENTRANCES = 0;
     private static final String BOOK_PATH = "/WEB-INF/classes/book.json";
+    private static final String TRUE = "True";
     private static final Integer INIT_PART = 0;
     private static final Logger LOGGER = LoggerFactory.getLogger(StartBookServlet.class);
     private final static CookieReaderService COOKIE_READER_SERVICE = new CookieReaderService();
@@ -87,6 +87,23 @@ public class StartBookServlet extends HttpServlet {
         if (Integer.valueOf(userCountEntrances) != INIT_USER_COUNT_ENTRANCES) {
             userCountEntrances = String.valueOf(USER_COUNT_ENTRANCES_SERVICE.incrementUserCountEntrances(userCountEntrances));
             resp.addCookie(new Cookie(USER_COUNT_ENTRANCES_COOKIE.getName(), userCountEntrances));
+        }
+
+        try {
+            if ( ((String) session.getAttribute(IS_END.getName())).equalsIgnoreCase(TRUE)) {
+                resp.addCookie(new Cookie(PART_WHERE_STOPPED.getName(), String.valueOf(book.getFirstPart())));
+                req.setAttribute(ReqAttributes.PART_WHERE_STOPPED.getName(), book.getFirstPart());
+            } else {
+                Optional<String> optionalPartWhereStopped = COOKIE_READER_SERVICE.readCookie(cookies, PART_WHERE_STOPPED.getName());
+                String partWhereStopped = optionalPartWhereStopped.orElse(String.valueOf(book.getFirstPart()));
+                req.setAttribute(ReqAttributes.PART_WHERE_STOPPED.getName(), partWhereStopped);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Cant find init part ", e);
+            resp.addCookie(new Cookie(PART_WHERE_STOPPED.getName(), String.valueOf(book.getFirstPart())));
+            Optional<String> optionalPartWhereStopped = COOKIE_READER_SERVICE.readCookie(cookies, PART_WHERE_STOPPED.getName());
+            String partWhereStopped = optionalPartWhereStopped.orElse(String.valueOf(book.getFirstPart()));
+            req.setAttribute(ReqAttributes.PART_WHERE_STOPPED.getName(), partWhereStopped);
         }
 
         UserDTO user = SIMPLE_USER_DTO_BUILDER.name(userName).build();

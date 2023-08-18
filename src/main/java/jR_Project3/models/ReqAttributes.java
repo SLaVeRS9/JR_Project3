@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ReqAttributes {
     INIT_PART("initPart"),
+    PART_WHERE_STOPPED("partWhereStopped"),
     IS_REGISTERED("isRegistered");
 
     private final String name;

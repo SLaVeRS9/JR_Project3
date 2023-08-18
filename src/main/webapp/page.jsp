@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Вячеслав
-  Date: 08.08.2023
-  Time: 1:43
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="jR_Project3.models.SessionAttributes" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -20,6 +14,7 @@
         <div class="center">
                 <c:forEach var="button" items="${currentPart.buttons}">
                     <c:if test="${button.text.equalsIgnoreCase('Конец')}">
+                        <% session.setAttribute(SessionAttributes.IS_END.getName(), "true"); %>
                         <form class="main" action="/start" method="GET">
                             <label>
                                 <button class="main3">${button.text}</button>
