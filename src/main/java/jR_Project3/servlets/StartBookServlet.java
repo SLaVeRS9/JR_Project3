@@ -110,7 +110,7 @@ public class StartBookServlet extends HttpServlet {
         HttpSession session = req.getSession();
 
         String name = req.getParameter(USER_NAME.getName());
-        LOGGER.info("User name = {}", name);
+        LOGGER.info("New user has been registered: {}", name);
         InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute(INFO_FORM_DTO.getName());
         infoFormDTO.setUserName(name);
         UserDTO user = SIMPLE_USER_DTO_BUILDER.name(name).build();
