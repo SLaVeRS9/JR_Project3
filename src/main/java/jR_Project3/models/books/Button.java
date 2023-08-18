@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(force = true)
 public class Button {
     private final String text;
-    private final Long nextPart;
+    private final Integer nextPart;
 }
