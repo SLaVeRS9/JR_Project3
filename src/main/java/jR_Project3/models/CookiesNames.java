@@ -2,7 +2,8 @@ package jR_Project3.models;
 
 public enum CookiesNames {
     USER_NAME_COOKIE("UserName"),
-    USER_COUNT_ENTRANCES_COOKIE("UserEntrances");
+    USER_COUNT_ENTRANCES_COOKIE("UserEntrances"),
+    PART_WHERE_STOPPED("PartWhereStopped");
     private final String cookieName;
     CookiesNames(String cookieName) {
         this.cookieName = cookieName;
