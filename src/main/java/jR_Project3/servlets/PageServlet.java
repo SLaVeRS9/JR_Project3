@@ -29,8 +29,9 @@ public class PageServlet  extends HttpServlet {
         StepsInGameService.incrementStepsInGame(session);
 
         InfoFormDTO infoFormDTO = (InfoFormDTO) session.getAttribute(INFO_FORM_DTO.getName());
+        log.info("user = {} open part", infoFormDTO.getUserName());
         infoFormDTO.setStepsInGame((Integer)session.getAttribute(STEPS_IN_GAME.getName()));
-        log.info("Steps in game has been set");
+        log.debug("Steps in game has been set");
         session.setAttribute(INFO_FORM_DTO.getName(), infoFormDTO);
 
         Book book = (Book) session.getAttribute(BOOK.getName());

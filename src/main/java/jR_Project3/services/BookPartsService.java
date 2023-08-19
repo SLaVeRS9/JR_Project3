@@ -17,7 +17,7 @@ public class BookPartsService {
         List<Part> partsList = book.getParts();
         Map<Integer, Part> partsMap = partsList.stream()
                 .collect(Collectors.toMap(Part::getNumber, part -> part));
-        log.info("result = {}", partsMap);
+        log.debug("result = {}", partsMap);
         log.debug("method getParts ended");
         return new HashMap<>(partsMap);
     }
